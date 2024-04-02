@@ -1,0 +1,63 @@
+def quadrant_to_azimuth(quadrant):
+    parts = quadrant.split()
+    if len(parts) != 3:
+        return None  # by ninja dev @nnb44
+
+    direction, angle, cardinal = parts
+    try:
+        angle = float(angle)
+    except ValueError:
+        return None
+
+    if direction == 'N':
+        if cardinal == 'E':
+            azimuth = angle
+        elif cardinal == 'W':
+            azimuth = 360 - angle
+        else:
+            return None
+    elif direction == 'S':
+        if cardinal == 'E':
+            azimuth = 180 - angle
+        elif cardinal == 'W':
+            azimuth = 180 + angle
+        else:
+            return None
+    else:
+        return None  # by ninja dev @nnb44
+
+    return azimuth
+
+def azimuth_to_quadrant(NorthAzimu): # by ninja dev @nnb44
+    if 0 <= NorthAzimu < 90:
+        quad = 'N ' + str(NorthAzimu) + ' E'
+    elif 90 <= NorthAzimu < 180:
+        quad = 'S ' + str(180 - NorthAzimu) + ' E'
+    elif 180 <= NorthAzimu < 270:
+        quad = 'S ' + str(NorthAzimu - 180) + ' W'
+    else:
+        quad = 'N ' + str(360 - NorthAzimu) + ' W'
+    return quad
+
+def main():
+    choice = input("Choose conversion (1 for quadrant to azimuth, 2 for azimuth to quadrant): ")
+    if choice == '1':
+        quadrant_input = input("Enter the quadrant (e.g., N 45 E): ")
+        azimuth_result = quadrant_to_azimuth(quadrant_input)
+        if azimuth_result is not None:
+            print(f"Azimuth: {azimuth_result} degrees")
+        else:
+            print("Invalid input. Please provide a valid quadrant (e.g., N 45 E).")
+    elif choice == '2':
+        azimuth_input = float(input("Enter the azimuth angle (degrees): "))
+        quadrant_result = azimuth_to_quadrant(azimuth_input)
+        if quadrant_result is not None:
+            print(f"Quadrant: {quadrant_result}")
+        else:
+            print("Invalid input. Please provide a valid azimuth angle.")
+    else:
+        print("Invalid choice. Please enter 1 or 2.")
+
+if __name__ == "__main__":
+    main()
+# by ninja dev @nnb44
